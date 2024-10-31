@@ -1,0 +1,21 @@
+#container 
+{
+    margin-left: auto;
+    margin-right: auto;
+    height: 600px;
+    width: 350px;
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#buttons_container 
+{
+    height: 450px;
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+}
