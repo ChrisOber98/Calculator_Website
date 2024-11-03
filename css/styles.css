@@ -25,6 +25,18 @@
     padding-right: 4px;
 }
 
+#equation_display {
+    font-size: 24px;
+    color: black;
+    flex: 1;
+}
+#result_display {
+    font-size: 64px;
+    text-align: right;
+    padding-right: 4px;
+    flex: 1;
+}
+
 #buttons_container {
     height: 450px;
     display: flex;

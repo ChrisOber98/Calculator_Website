@@ -92,10 +92,13 @@ for (let i = 0; i < 5; i++)
     container.append(newFlex);
 }
 
-const displayContainer = document.querySelector("#display_container");
+const equationDisplay = document.querySelector("#equation_display");
+const resultDisplay = document.querySelector("#result_display");
+
 let currentInput = "";
 let operator = null;
 let operand1 = null;
+let shouldResetDisplay = false;
 
 const buttons = document.querySelectorAll(".calc_button");
 
@@ -104,37 +107,96 @@ buttons.forEach(button => {
         const value = button.textContent;
 
         if (!isNaN(value) || value === ".") 
-        { 
+        {
+            if (shouldResetDisplay) 
+            {
+                currentInput = "";
+                shouldResetDisplay = false;
+            }
             currentInput += value;
-            displayContainer.textContent = currentInput;
+            resultDisplay.textContent = currentInput;
         } 
         else if (value === "AC") 
-        { 
+        {
             currentInput = "";
             operand1 = null;
             operator = null;
-            displayContainer.textContent = "0";
-        } 
-        else if (value === "=") 
-        {  // Equals button
-        if (operator && operand1 !== null && currentInput)
-        {
-            const result = operate(operator, operand1, parseFloat(currentInput));
-            displayContainer.textContent = result;
-            operand1 = result;
-            currentInput = "";
-            operator = null;
+            resultDisplay.textContent = "0";
+            equationDisplay.textContent = "";
+            shouldResetDisplay = false;
         }
-        } 
-        else
-        { 
+        else if (value === "+/-") 
+        {
             if (currentInput) 
             {
-                operand1 = parseFloat(currentInput);
-                operator = value;
+                currentInput = String(-parseFloat(currentInput));
+                resultDisplay.textContent = currentInput;
+            } 
+            else if (operand1 !== null) 
+            {
+                operand1 = -operand1;
+                resultDisplay.textContent = operand1;
+            }
+        }  
+        else if (value === "=") 
+        {
+            if (operator && operand1 !== null && currentInput) 
+            {
+                const result = operate(operator, operand1, parseFloat(currentInput));
+                equationDisplay.textContent = `${operand1} ${operator} ${currentInput} =`;
+                resultDisplay.textContent = result;
+                operand1 = result;
                 currentInput = "";
-                displayContainer.textContent = operator;
+                operator = null;
+                shouldResetDisplay = true;
             }
         }
+        else if (value === "%") 
+        {
+            if (currentInput) 
+            {
+                currentInput = String(parseFloat(currentInput) * 0.01);
+                resultDisplay.textContent = currentInput;
+            } 
+            else if (operand1 !== null) 
+            {
+                operand1 = operand1 * 0.01;
+                resultDisplay.textContent = operand1;
+            }
+        } 
+        else 
+        {
+            if (currentInput) 
+            {
+                if (operand1 !== null && operator) 
+                {
+                    operand1 = operate(operator, operand1, parseFloat(currentInput));
+                    resultDisplay.textContent = operand1;
+                    equationDisplay.textContent = `${operand1} ${value}`;
+                } 
+                else 
+                {
+                    operand1 = parseFloat(currentInput);
+                }
+            }
+            operator = value;
+            currentInput = "";
+            equationDisplay.textContent = `${operand1} ${operator}`;
+            shouldResetDisplay = true;
+        }
+    });
+});
+
+buttons.forEach(button => {
+    button.addEventListener("mousedown", () => {
+        button.style.filter = "brightness(85%)";
+    });
+
+    button.addEventListener("mouseup", () => {
+        button.style.filter = "brightness(100%)"; 
+    });
+
+    button.addEventListener("mouseleave", () => {
+        button.style.filter = "brightness(100%)";
     });
 });
