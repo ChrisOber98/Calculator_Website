@@ -1,5 +1,4 @@
-#container 
-{
+#container {
     margin-left: auto;
     margin-right: auto;
     height: 600px;
@@ -11,11 +10,43 @@
     justify-content: flex-end;
 }
 
-#buttons_container 
-{
-    height: 450px;
+#display_container {
+    display: flex;
     border-style: solid;
     border-color: black;
+    border-width: 4px;
+    flex: 1;
+    background-color: darkseagreen;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: right;
+    font-size: 32px;
+    padding-right: 4px;
+}
+
+#buttons_container {
+    height: 450px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    border-style: solid;
+    border-color: black;
+}
+
+#buttons_container > div {
+    display: flex;
+    flex: 1;
+}
+
+.calc_button {
+    flex: 1;
+    height: 100%;
+    font-size: 24px;
+    border-style: solid;
+    border-color: black;
+}
+
+.big_button {
+    flex: 2;
+    padding-right: 21px;
 }
